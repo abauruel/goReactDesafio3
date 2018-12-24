@@ -1,0 +1,13 @@
+.modal-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-50%, -50%);
+}
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}

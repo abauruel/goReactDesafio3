@@ -3,11 +3,19 @@ import ReactMapGl, { Marker } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { ToastContainer, toast, ToastPosition } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Modal from "react-modal";
 
 import InputUser from "./components/InputUsername";
-
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)"
+    }
+};
 class App extends Component {
     state = {
         viewport: {
@@ -16,7 +24,8 @@ class App extends Component {
             latitude: -23.5439948,
             longitude: -46.6065452,
             zoom: 14
-        }
+        },
+        modalIsOpen: false
     };
 
     componentDidMount() {
@@ -38,9 +47,15 @@ class App extends Component {
         });
     };
 
-    handleMapClick(e) {
+    handleMapClick = e => {
         const [latitude, longitude] = e.lngLat;
-    }
+        console.log("clicado 1");
+        this.openModal();
+    };
+
+    openModal = () => {
+        this.setState({ modalIsOpen: true });
+    };
 
     render() {
         return (
@@ -51,6 +66,13 @@ class App extends Component {
                 mapStyle="mapbox://styles/mapbox/basic-v9"
                 mapboxApiAccessToken="pk.eyJ1IjoiZGllZ28zZyIsImEiOiJjamh0aHc4em0wZHdvM2tyc3hqbzNvanhrIn0.3HWnXHy_RCi35opzKo8sHQ"
             >
+                <Modal style={customStyles} isOpen={this.state.modalIsOpen}>
+                    <h3>Adicionar usuário </h3>
+                    <input type="text" placeholder="usuário github" />
+                    <button>Cancelar</button>
+                    <button>Adicionar</button>
+                </Modal>
+
                 <Marker
                     latitude={-23.5439948}
                     longitude={-46.6065452}
