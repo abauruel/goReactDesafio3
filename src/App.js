@@ -6,16 +6,11 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Modal from "react-modal";
 
 import InputUser from "./components/InputUsername";
-const customStyles = {
-    content: {
-        top: "50%",
-        left: "50%",
-        right: "auto",
-        bottom: "auto",
-        marginRight: "-50%",
-        transform: "translate(-50%, -50%)"
-    }
-};
+import InputUsername from "./components/InputUsername";
+
+import store from "./store";
+import { Provider } from "react-redux";
+
 class App extends Component {
     state = {
         viewport: {
@@ -57,40 +52,54 @@ class App extends Component {
         this.setState({ modalIsOpen: true });
     };
 
+    closeModal = () => {
+        this.setState({ modalIsOpen: false });
+    };
+
     render() {
         return (
-            <ReactMapGl
-                {...this.state.viewport}
-                onViewportChange={viewport => this.setState({ viewport })}
-                onClick={this.handleMapClick}
-                mapStyle="mapbox://styles/mapbox/basic-v9"
-                mapboxApiAccessToken="pk.eyJ1IjoiZGllZ28zZyIsImEiOiJjamh0aHc4em0wZHdvM2tyc3hqbzNvanhrIn0.3HWnXHy_RCi35opzKo8sHQ"
-            >
-                <Modal style={customStyles} isOpen={this.state.modalIsOpen}>
-                    <h3>Adicionar usuário </h3>
-                    <input type="text" placeholder="usuário github" />
-                    <button>Cancelar</button>
-                    <button>Adicionar</button>
-                </Modal>
-
-                <Marker
-                    latitude={-23.5439948}
-                    longitude={-46.6065452}
+            <Provider store={store}>
+                <ReactMapGl
+                    {...this.state.viewport}
+                    onViewportChange={viewport => this.setState({ viewport })}
                     onClick={this.handleMapClick}
-                    captureClick
+                    mapStyle="mapbox://styles/mapbox/basic-v9"
+                    mapboxApiAccessToken="pk.eyJ1IjoiZGllZ28zZyIsImEiOiJjamh0aHc4em0wZHdvM2tyc3hqbzNvanhrIn0.3HWnXHy_RCi35opzKo8sHQ"
                 >
-                    <img
-                        style={{
-                            borderRadius: 100,
-                            width: 48,
-                            height: 48
-                        }}
-                        src="https://avatars2.githubusercontent.com/u/2254731?v=4"
-                    />
-                </Marker>
-            </ReactMapGl>
+                    <Modal style={customStyles} isOpen={this.state.modalIsOpen}>
+                        <InputUsername />
+                    </Modal>
+
+                    <Marker
+                        latitude={-23.5439948}
+                        longitude={-46.6065452}
+                        onClick={this.handleMapClick}
+                        captureClick
+                    >
+                        <img
+                            style={{
+                                borderRadius: 100,
+                                width: 48,
+                                height: 48
+                            }}
+                            src="https://avatars2.githubusercontent.com/u/2254731?v=4"
+                        />
+                    </Marker>
+                </ReactMapGl>
+            </Provider>
         );
     }
 }
 
 export default App;
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)"
+    }
+};

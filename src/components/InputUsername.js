@@ -2,6 +2,10 @@ import React from "react";
 
 import Styled from "styled-components";
 
+import { connect } from "react-redux";
+import * as UserActions from "../store/actions/users";
+import { bindActionCreators } from "redux";
+
 const Container = Styled.div`
     
     p{
@@ -43,21 +47,32 @@ const ContainerButton = Styled.div`
         
 `;
 
-const InputUsername = ({ closeToast }) => (
-    <Container>
-        <p>
-            <strong>Adicionar Novo Usuário</strong>
-        </p>
-        <input type="text" placeholder="usuário do Github" />
-        <ContainerButton>
-            <button type="submit" onClick={() => closeToast}>
-                Cancelar
-            </button>
-            <button type="submit" style={{ background: "#5cb85c" }}>
-                Adicionar
-            </button>
-        </ContainerButton>
-    </Container>
-);
+const InputUsername = ({ addUser }) => {
+    return (
+        <Container>
+            <p>
+                <strong>Adicionar Novo Usuário</strong>
+            </p>
+            <input type="text" placeholder="usuário do Github" />
+            <ContainerButton>
+                <button type="submit">Cancelar</button>
+                <button
+                    type="submit"
+                    style={{ background: "#5cb85c" }}
+                    onClick={() => addUser("ALex")}
+                >
+                    Adicionar
+                </button>
+            </ContainerButton>
+        </Container>
+    );
+};
+const mapStateToPros = state => ({ user: state.users });
 
-export default InputUsername;
+const mapDispatchToProps = dispatch =>
+    bindActionCreators(UserActions, dispatch);
+
+export default connect(
+    mapStateToPros,
+    mapDispatchToProps
+)(InputUsername);
