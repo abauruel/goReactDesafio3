@@ -1,9 +1,9 @@
-const INITIAL_STATE = [{ name: "" }];
+const INITIAL_STATE = [];
 
-export default function Users(state = INITIAL_STATE, action) {
+export default function users(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case "ADD_USER":
-            return [...state, { text: action.payload.text }];
+        case "ADD_USER_SUCCESS":
+            return [...state, action.payload.data];
         default:
             return state;
     }

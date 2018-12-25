@@ -47,32 +47,35 @@ const ContainerButton = Styled.div`
         
 `;
 
-const InputUsername = ({ addUser }) => {
+const InputUsername = ({ handleAddUser, userInput }) => {
     return (
         <Container>
-            <p>
-                <strong>Adicionar Novo Usuário</strong>
-            </p>
-            <input type="text" placeholder="usuário do Github" />
-            <ContainerButton>
-                <button type="submit">Cancelar</button>
-                <button
-                    type="submit"
-                    style={{ background: "#5cb85c" }}
-                    onClick={() => addUser("ALex")}
-                >
-                    Adicionar
-                </button>
-            </ContainerButton>
+            <form onSubmit={handleAddUser(userInput)}>
+                <p>
+                    <strong>Adicionar Novo Usuário</strong>
+                </p>
+                <input
+                    type="text"
+                    placeholder="usuário do Github"
+                    value={userInput}
+                    onChange={e => ({ userInput: e.target.value })}
+                />
+                <ContainerButton>
+                    <button type="submit">Cancelar</button>
+                    <button type="submit" style={{ background: "#5cb85c" }}>
+                        Adicionar
+                    </button>
+                </ContainerButton>
+            </form>
         </Container>
     );
 };
-const mapStateToPros = state => ({ user: state.users });
+const mapStateToProps = state => ({ user: state.users });
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(UserActions, dispatch);
 
 export default connect(
-    mapStateToPros,
+    mapStateToProps,
     mapDispatchToProps
 )(InputUsername);

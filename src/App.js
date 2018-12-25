@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import InputUser from "./components/InputUsername";
 import InputUsername from "./components/InputUsername";
 
+import "./config/reactotron";
 import store from "./store";
 import { Provider } from "react-redux";
 
@@ -20,7 +21,8 @@ class App extends Component {
             longitude: -46.6065452,
             zoom: 14
         },
-        modalIsOpen: false
+        modalIsOpen: false,
+        userInput: ""
     };
 
     componentDidMount() {
@@ -54,6 +56,13 @@ class App extends Component {
 
     closeModal = () => {
         this.setState({ modalIsOpen: false });
+    };
+
+    handleAddUser = async event => {
+        event.preventDefault();
+        this.setState({
+            userInput: event.target.value
+        });
     };
 
     render() {
