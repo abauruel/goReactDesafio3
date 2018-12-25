@@ -1,6 +1,6 @@
-export const addUserRequest = text => ({
-    type: "ADD_USER",
-    payload: { text }
+export const addUserRequest = (text, coordenada) => ({
+    type: "ADD_USER_REQUEST",
+    payload: { text, coordenada }
 });
 
 export const addUserSuccess = data => ({

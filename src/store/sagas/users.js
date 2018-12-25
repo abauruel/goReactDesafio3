@@ -10,7 +10,8 @@ export function* addUser(action) {
         id: data.id,
         name: data.name,
         login: data.login,
-        avatar_url: data.avatar_url
+        avatar_url: data.avatar_url,
+        coordenadas: action.payload.coordenada
     };
 
     yield put(addUserSuccess(repositoryData));
