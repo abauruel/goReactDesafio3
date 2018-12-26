@@ -151,10 +151,11 @@ class Principal extends Component {
                                     }}
                                 />
                                 <ListaConteudo>
-                                    <h3>{u.name}</h3>
+                                    <p>{u.name}</p>
                                     <small>{u.login}</small>
                                 </ListaConteudo>
-                                <button>X</button>
+                                <button>x</button>
+                                <button>></button>
                             </li>
                         ))}
                     </ul>
@@ -233,36 +234,45 @@ const ContainerButton = Styled.div`
 const Lista = Styled.div`
          width: 400px;
          ul {
-                 list-style: none;
+            list-style-type: none;
+            
             li {
                 display:flex;
-
+                list-style: none;
                 font-weight: bold;
                 padding: 10px 20px;
+                padding-right: 2px;
                 background: #ffffff;
-
-            img{ 
-                display: flex;
-                
-                
-                }    
-
+                button{
+                    border: none;
+                    background: none;
+                    
+                    
             }
+                        }
             }
 `;
 const ListaConteudo = Styled.div`
-            display: flex;
-            flex-direction: column;
-            margin-left: 10px;
-            padding: 0 10px;
+                 
+                margin-left: 10px; 
+                width: 250px;
+            p{
+                height: 20px;
+                margin: 0px;
+                margin-top: 10px;
+             
+            }
             
             small {
-                align: top;
+                height: 10px;
+                align: left;
                 font-weight: normal;
                 font-size: 12px;
                 color: #999;
                 font-style: italic;
+                
                 }
+            
             
 `;
 
