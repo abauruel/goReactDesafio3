@@ -9,7 +9,15 @@ import { connect } from "react-redux";
 import * as UserActions from "../store/actions/users";
 import { bindActionCreators } from "redux";
 
-import Styled from "styled-components";
+import {
+    Lista,
+    ListaConteudo,
+    customStyles,
+    Container,
+    ContainerButton
+} from "./styles";
+
+import "../styles/global";
 
 import Modal from "react-modal";
 
@@ -52,10 +60,6 @@ class Principal extends Component {
     };
 
     handleMapClick = e => {
-        console.log(e);
-        if (!e.lngLat) {
-            return;
-        }
         e.preventDefault();
         const [long, lat] = e.lngLat;
 
@@ -74,7 +78,6 @@ class Principal extends Component {
     };
 
     closeModal = e => {
-        console.log(e);
         this.setState({ modalIsOpen: false, userInput: "" });
     };
 
@@ -176,19 +179,17 @@ class Principal extends Component {
                                     <p>{u.name}</p>
                                     <small>{u.login}</small>
                                 </ListaConteudo>
-                                <input
-                                    type="button"
-                                    value="x"
-                                    onClick={() => "x"}
-                                />
+                                <button>
+                                    <i className="fa fa-times-circle" />
+                                </button>
 
-                                <input
-                                    type="button"
-                                    value=">"
+                                <button
                                     onClick={() =>
                                         this._goToViewport(u.coordenadas)
                                     }
-                                />
+                                >
+                                    <i className="fa fa-angle-right" />
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -212,116 +213,6 @@ Principal.propTypes = {
         })
     )
 };
-const customStyles = {
-    content: {
-        top: "50%",
-        left: "50%",
-        right: "auto",
-        bottom: "auto",
-        marginRight: "-50%",
-        transform: "translate(-50%, -50%)"
-    }
-};
-
-const Container = Styled.div`
-    
-    p{
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    input{
-        flex:1;
-        flex-direction: column;
-        justify-content:center;
-        height: 30px;
-        font-size: 18px;
-        padding: 0 20px;
-        border-radius:3px;
-        margin-left: 20px;
-        margin-bottom: 10px; 
-
-    }
-    
-`;
-
-const ContainerButton = Styled.div`
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-
-        button{
-            margin-left: 20px;
-            height: 30px;
-            padding-top: 10x;
-            padding-left: 20px;
-            padding-right: 20px;
-            border: 0;
-            border-radius: 3px;
-            color: #ffffff;
-          
-        }
-        
-`;
-
-const Lista = Styled.div`
-         width: 400px;
-         position: absolute;
-         ul {
-            list-style-type: none;
-            
-            li {
-                display:flex;
-                list-style: none;
-                font-weight: bold;
-                padding: 10px 20px;
-                padding-right: 2px;
-                background: #ffffff;
-                justify-content: center;
-                align-items: center;
-                input{
-                    
-                    border: none;
-                    background: none;
-                    height: 20px;
-                    width: 20px;
-                    margin: 20px;
-                    background: #de1a03;
-                    color: #ffffff;
-                    border-radius: 100px;
-                    font-weight: bold;
-                    display: inline-block;
-                    cursor: pointer;
-                    
-                    
-            }
-                        }
-            }
-`;
-const ListaConteudo = Styled.div`
-                 
-                margin-left: 10px; 
-                width: 250px;
-            p{
-                height: 20px;
-                margin: 0px;
-                margin-top: 10px;
-             
-            }
-            
-            small {
-                height: 10px;
-                align: left;
-                font-weight: normal;
-                font-size: 12px;
-                color: #999;
-                font-style: italic;
-                
-                }
-            
-            
-`;
 
 const mapStateToProps = state => ({ user: state.users });
 
