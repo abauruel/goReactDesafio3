@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 //import para utilização da biblioteca mapBox
-import ReactMapGl, { Marker } from "react-map-gl";
+import ReactMapGl, { Marker, FlyToInterpolator } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 // configurações para redux
@@ -52,8 +52,12 @@ class Principal extends Component {
     };
 
     handleMapClick = e => {
+        console.log(e);
+        if (!e.lngLat) {
+            return;
+        }
+        e.preventDefault();
         const [long, lat] = e.lngLat;
-        console.log(lat);
 
         this.setState({
             coordenadas: {
@@ -69,7 +73,8 @@ class Principal extends Component {
         this.setState({ modalIsOpen: true });
     };
 
-    closeModal = () => {
+    closeModal = e => {
+        console.log(e);
         this.setState({ modalIsOpen: false, userInput: "" });
     };
 
@@ -78,6 +83,23 @@ class Principal extends Component {
         this.props.addUserRequest(this.state.userInput, this.state.coordenadas);
 
         this.closeModal();
+    };
+
+    _onViewportChange = viewport => {
+        this.setState({
+            viewport: { ...this.state.viewport, ...viewport }
+        });
+        console.log(this.state.viewport);
+    };
+
+    _goToViewport = coord => {
+        this._onViewportChange({
+            longitude: coord.longitude,
+            latitude: coord.latitude,
+            zoom: 15,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionDuration: 3000
+        });
     };
 
     render() {
@@ -154,8 +176,19 @@ class Principal extends Component {
                                     <p>{u.name}</p>
                                     <small>{u.login}</small>
                                 </ListaConteudo>
-                                <button>x</button>
-                                <button>></button>
+                                <input
+                                    type="button"
+                                    value="x"
+                                    onClick={() => "x"}
+                                />
+
+                                <input
+                                    type="button"
+                                    value=">"
+                                    onClick={() =>
+                                        this._goToViewport(u.coordenadas)
+                                    }
+                                />
                             </li>
                         ))}
                     </ul>
@@ -226,13 +259,15 @@ const ContainerButton = Styled.div`
             padding-right: 20px;
             border: 0;
             border-radius: 3px;
-            color: #ffffff
+            color: #ffffff;
+          
         }
         
 `;
 
 const Lista = Styled.div`
          width: 400px;
+         position: absolute;
          ul {
             list-style-type: none;
             
@@ -243,9 +278,21 @@ const Lista = Styled.div`
                 padding: 10px 20px;
                 padding-right: 2px;
                 background: #ffffff;
-                button{
+                justify-content: center;
+                align-items: center;
+                input{
+                    
                     border: none;
                     background: none;
+                    height: 20px;
+                    width: 20px;
+                    margin: 20px;
+                    background: #de1a03;
+                    color: #ffffff;
+                    border-radius: 100px;
+                    font-weight: bold;
+                    display: inline-block;
+                    cursor: pointer;
                     
                     
             }
