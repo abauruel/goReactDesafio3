@@ -111,6 +111,10 @@ class Principal extends Component {
         this.props.updateStatusError();
         this.closeModal();
     };
+
+    removeUser(id) {
+        this.props.removeUser(id);
+    }
     render() {
         return (
             <ReactMapGl
@@ -206,7 +210,7 @@ class Principal extends Component {
                                     <p>{u.name}</p>
                                     <small>{u.login}</small>
                                 </ListaConteudo>
-                                <button>
+                                <button onClick={() => this.removeUser(u.id)}>
                                     <i className="fa fa-times-circle" />
                                 </button>
 

@@ -16,3 +16,8 @@ export const addUserFailure = error => ({
 export const updateStatusError = () => ({
     type: "UPDATE_STATUS_ERROR"
 });
+
+export const removeUser = id => ({
+    type: "REMOVE_USER",
+    payload: { id }
+});
