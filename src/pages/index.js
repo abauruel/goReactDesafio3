@@ -9,6 +9,9 @@ import { connect } from "react-redux";
 import * as UserActions from "../store/actions/users";
 import { bindActionCreators } from "redux";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
     Lista,
     ListaConteudo,
@@ -39,7 +42,8 @@ class Principal extends Component {
         coordenadas: {
             latitude: 0,
             longitude: 0
-        }
+        },
+        totalItens: 0
     };
 
     componentDidMount() {
@@ -94,7 +98,6 @@ class Principal extends Component {
         this.setState({
             viewport: { ...this.state.viewport, ...viewport }
         });
-        console.log(this.state.viewport);
     };
 
     _goToViewport = coord => {
@@ -107,13 +110,19 @@ class Principal extends Component {
         });
     };
 
-    clearError = () => {
-        this.props.updateStatusError();
-        this.closeModal();
-    };
-
     removeUser(id) {
         this.props.removeUser(id);
+        toast.warn("Usuario removido");
+    }
+    _sucesso() {
+        this.setState({
+            totalItens: this.props.user.data.length
+        });
+        toast.success("Usuário adicionado com sucesso!");
+    }
+    cleanMsgError() {
+        toast.error(this.props.user.error);
+        this.props.cleanMsgError();
     }
     render() {
         return (
@@ -161,21 +170,12 @@ class Principal extends Component {
                         </p>
                     </Loading>
                 )}
-                {!!this.props.user.error && (
-                    <Modal style={customStyles} isOpen={true}>
-                        <ErrorMsg>
-                            <p>
-                                <span>{this.props.user.error}</span>
-                            </p>
 
-                            <input
-                                type="submit"
-                                onClick={() => this.clearError()}
-                                value="fechar"
-                            />
-                        </ErrorMsg>
-                    </Modal>
-                )}
+                {!!this.props.user.error && this.cleanMsgError()}
+                {this.props.user.data.length > this.state.totalItens
+                    ? this._sucesso()
+                    : "false"}
+                <ToastContainer />
                 {this.props.user.data.map(u => (
                     <Marker
                         key={u.id}

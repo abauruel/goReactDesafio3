@@ -49,6 +49,12 @@ export default function users(state = INITIAL_STATE, action) {
             return {
                 data: res
             };
+        case "CLEAN_MSG_ERROR":
+            return {
+                ...state,
+                error: null
+            };
+
         default:
             return state;
     }
