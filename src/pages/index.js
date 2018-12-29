@@ -14,7 +14,9 @@ import {
     ListaConteudo,
     customStyles,
     Container,
-    ContainerButton
+    ContainerButton,
+    Loading,
+    ErrorMsg
 } from "./styles";
 
 import "../styles/global";
@@ -105,6 +107,10 @@ class Principal extends Component {
         });
     };
 
+    clearError = () => {
+        this.props.updateStatusError();
+        this.closeModal();
+    };
     render() {
         return (
             <ReactMapGl
@@ -144,8 +150,29 @@ class Principal extends Component {
                         </form>
                     </Container>
                 </Modal>
+                {this.props.user.loading && (
+                    <Loading>
+                        <p className="fa-spin ">
+                            <i className="fa fa-spinner fa-spin" />
+                        </p>
+                    </Loading>
+                )}
+                {!!this.props.user.error && (
+                    <Modal style={customStyles} isOpen={true}>
+                        <ErrorMsg>
+                            <p>
+                                <span>{this.props.user.error}</span>
+                            </p>
 
-                {this.props.user.map(u => (
+                            <input
+                                type="submit"
+                                onClick={() => this.clearError()}
+                                value="fechar"
+                            />
+                        </ErrorMsg>
+                    </Modal>
+                )}
+                {this.props.user.data.map(u => (
                     <Marker
                         key={u.id}
                         latitude={u.coordenadas.latitude}
@@ -165,7 +192,7 @@ class Principal extends Component {
                 ))}
                 <Lista>
                     <ul>
-                        {this.props.user.map(u => (
+                        {this.props.user.data.map(u => (
                             <li key={u.id}>
                                 <img
                                     src={u.avatar_url}
@@ -200,18 +227,21 @@ class Principal extends Component {
 }
 
 Principal.propTypes = {
-    user: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number,
-            name: PropTypes.string,
-            login: PropTypes.string,
-            avatar_url: PropTypes.string,
-            coordenadas: PropTypes.shape({
-                latitude: PropTypes.number,
-                longitude: PropTypes.number
+    user: PropTypes.shape({
+        loading: PropTypes.bool,
+        data: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                name: PropTypes.string,
+                login: PropTypes.string,
+                avatar_url: PropTypes.string,
+                coordenadas: PropTypes.shape({
+                    latitude: PropTypes.number,
+                    longitude: PropTypes.number
+                })
             })
-        })
-    )
+        )
+    }).isRequired
 };
 
 const mapStateToProps = state => ({ user: state.users });

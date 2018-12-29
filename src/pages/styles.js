@@ -108,3 +108,36 @@ export const ContainerButton = Styled.div`
         }
         
 `;
+export const Loading = Styled.div`
+        
+         p{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%) 
+        }
+        
+        
+        
+`;
+export const ErrorMsg = Styled.div`
+        display: flex;
+        flex-direction: column;
+        input{
+            border: none;
+            background: #dbdbdb;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 10px;
+            margin: 10px;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-style: bold;
+            &:hover{
+            
+            background: #c0c0c0;
+         }   
+        }
+`;
